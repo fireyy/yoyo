@@ -1,0 +1,35 @@
+#!/usr/bin/env node
+
+'use strict'
+
+const app = require('commander')
+const pkg = require('../package')
+const yoyo = require('../lib')
+const log = require('../lib/log')
+
+app
+  .version(pkg.version)
+  .description(pkg.description)
+  .option('-l, --list', 'List the installed templates')
+
+app
+  .arguments('<source> [target]')
+
+app
+  .parse(process.argv)
+
+require('../lib/check-versions')().then(_ => {
+  if (app.list) {
+    yoyo.list()
+  } else {
+    if (!app.args.length) {
+      app.help()
+    } else {
+      yoyo.init(...app.args).catch(err => {
+        // 自定义错误只显示 message
+        log.error(err.name == 'yoyoError' ? err.message : err.stack)
+        process.exit(1)
+      })
+    }
+  }
+})
