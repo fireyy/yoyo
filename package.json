@@ -1,7 +1,7 @@
 {
   "name": "yoyo",
   "version": "1.0.0",
-  "description": "scaffolding tool",
+  "description": "A simple scaffolding tool.",
   "main": "lib/index.js",
   "author": {
     "name": "fireyy",
