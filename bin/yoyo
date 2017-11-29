@@ -11,6 +11,7 @@ app
   .version(pkg.version)
   .description(pkg.description)
   .option('-l, --list', 'List the installed templates')
+  .option('-u, --update', 'Update the template')
 
 app
   .arguments('<source> [target]')
@@ -25,7 +26,12 @@ require('../lib/check-versions')().then(_ => {
     if (!app.args.length) {
       app.help()
     } else {
-      yoyo.init(...app.args).catch(err => {
+      const options = {
+        source: app.args[0],
+        target: app.args[1],
+        update: app.update
+      }
+      yoyo.init(options).catch(err => {
         // 自定义错误只显示 message
         log.error(err.name == 'yoyoError' ? err.message : err.stack)
         process.exit(1)
